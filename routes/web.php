@@ -11,6 +11,11 @@
 |
 */
 
+//Cargando clases
+use App\Http\Middleware\ApiAuthMiddleware;
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,4 +23,14 @@ Route::get('/', function () {
 //Rutas de controlador de usuarios
 Route::post('/api/register', 'UserController@register');
 Route::post('/api/login', 'UserController@login');
-Route::post('/api/user/update', 'UserController@update');
+Route::put('/api/user/update', 'UserController@update');
+Route::post('/api/user/upload', 'UserController@upload')->middleware(ApiAuthMiddleware::class);
+Route::get('/api/user/avatar/{filename}', 'UserController@getImage');
+Route::get('/api/user/detail/{id}', 'UserController@detail');
+
+
+//Rutas de controlador de categorias
+Route::resource('/api/category', 'CategoryController');
+
+//Rutas de controlador de entradas
+Route::resource('/api/post', 'PostController');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\User;
 
 class UserController extends Controller
@@ -112,16 +113,131 @@ class UserController extends Controller
     }
 
     public function update(Request $request) {
+
+        //Comprobar si el usuario esta identificado:
+
+        //Recogemos token
         $token = $request->header('Authorization');
+        //Instanciamos Objeto de provider
         $jwtAuth = new \JwtAuth();
+        //Comprobamos token con información correcta
         $checkToken = $jwtAuth->checkToken($token);
 
-        if ($checkToken) {
-            echo "<h1>Login correcto</h1>";
+        //Recoger datos por POST
+        $json = $request->input('json', null);
+        $params_array = json_decode($json, true);
+
+        if ($checkToken && !empty($params_array)) {
+            //Actualizar el usuario
+
+            //Recoger id de usuario identificado
+            $user = $jwtAuth->checkToken($token, true);
+
+
+            //Validar los datos
+
+            $validate = \Validator::make($params_array, [
+                'name' => 'required|alpha',
+                'surname' => 'required|alpha',
+                'email' => 'required|email|unique:users,'.$user->sub
+            ]);
+
+            //Quitar los campos que no quiero actualizar
+            unset($params_array['id']);
+            unset($params_array['role']);
+            unset($params_array['password']);
+            unset($params_array['created_at']);
+            unset($params_array['remember_token']);
+
+            //Actualizar el usuario en la BBDD
+
+            $user_update = User::where('id', $user->sub)->update($params_array);
+
+            //Devolver array con el resultado
+
+            $data = array(
+                'status' => 'success',
+                'code' => 200,
+                'message' => 'El usuario se ha actualizado',
+                'user' => $params_array 
+            );
         } else {
-            echo "<h1>Login INcorrecto</h1>";
+            $data = array(
+                'status' => 'error',
+                'code' => 400,
+                'message' => 'El usuario no esta identificado correctamente'
+            );
         }
 
-        die();
+        return response()->json($data, $data['code']);
+    }
+
+    public function upload(Request $request) {
+        //Recoger los datos de la petición 
+        $image = $request->file('file0');
+
+        //Validacion de la imagen
+
+        $validate = \Validator::make($request->all(), [
+            'file0' => 'required|image|mimes:jpg,jpeg,png,gif'
+        ]);
+
+        //Guardar la imágen
+        if (!$image || $validate->fails()) {
+            $data = array(
+                'status' => 'error',
+                'code' => 400,
+                'message' => 'Error al subir imagen'
+            );
+        } else {
+            $image_name = time().$image->getClientOriginalName();
+            \Storage::disk('users')->put($image_name, \File::get($image));
+
+            $data = array(
+                'code' => 200,
+                'status' => 'success',
+                'image' => $image_name
+            );
+        }
+
+        return response()->json($data, $data['code']);
+    }
+
+    public function getImage($filename) {
+        $isset = \Storage::disk('users')->exists($filename);
+
+        if ($isset) {
+           $file = \Storage::disk('users')->get($filename);
+            return new Response($file, 200); 
+        } else {
+            $data = array(
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'La imagen no existe....'
+            );
+        }
+
+        return response()->json($data, $data['code']);
+
+    }
+
+    public function detail($id) {
+        $user = User::find($id);
+
+        if (is_object($user)) {
+            $data = array(
+                'code' => 200,
+                'status' => 'success',
+                'user' => $user
+            );
+        } else {
+            $data = array(
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'El usuario no existe'
+            );
+        }
+
+        return response()->json($data, $data['code']);
     }
 }
