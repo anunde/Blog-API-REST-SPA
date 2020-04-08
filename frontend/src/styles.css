@@ -7,3 +7,11 @@ form input[disabled] {
 	opacity: 0.4;
 	cursor: not-allowed;
 }
+
+#editor {
+	height: 150px;
+}
+
+.btn-texteditor:hover fa-icon{
+	color: #444;
+}
