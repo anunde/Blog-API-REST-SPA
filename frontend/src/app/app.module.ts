@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AngularFileUploaderModule } from "angular-file-uploader";
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -26,7 +28,9 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
     routing,
     FormsModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    CKEditorModule,
+    AngularFileUploaderModule
   ],
   providers: [
     appRoutingProviders

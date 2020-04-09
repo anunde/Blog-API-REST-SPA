@@ -40,6 +40,7 @@ export class UserService {
 	}
 
 	update(token, user): Observable<any> {
+		
 		let json = JSON.stringify(user);
 		let params = 'json='+json;
 

@@ -39,20 +39,18 @@
 		
 		<div class="form-group">
 			<label for="description">Descripción</label>
-			<div class="botones border border-bottom-0 rounded-top">
-				<button type="button" class="btn btn-sm text-muted btn-texteditor" (click)="doBold()"><fa-icon [icon]="faBold"></fa-icon></button>
-				<button type="button" class="btn btn-sm text-muted btn-texteditor" (click)="doItalic()"><fa-icon [icon]="faItalic"></fa-icon></button>
-			</div>			
-			<div id="editor" class="form-control h-120 rounded-0" (window:mouseup)="mouseUp()" name="description" #description="ngModel" [(ngModel)]="user.description" ngDefaultControl contenteditable="true"></div>
+			<ckeditor [editor]="Editor" name="description" [(ngModel)]="user.description"></ckeditor>
 		</div>
 
 		<div class="form-group">
 			<label for="image">Avatar</label>
-			<input type="file" name="image" class="form-control">
+
+			<div *ngIf="identity && identity.image" class="avatar-edit"><img src="{{url + 'user/avatar/' + identity.image}}"></div>
+
+			<angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar (ApiResponse)="avatarUpload($event)"></angular-file-uploader>
 		</div>
 
-
-		<input type="submit" class="btn btn-success" value="Guardar" [disabled]="settingForm.invalid">
+		<input type="submit" class="btn btn-success mt-2" value="Guardar" [disabled]="settingForm.invalid">
 	</form>
 
 </div>

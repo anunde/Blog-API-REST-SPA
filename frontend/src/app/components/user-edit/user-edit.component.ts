@@ -3,8 +3,9 @@ import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { faBold} from '@fortawesome/free-solid-svg-icons';
 import { faItalic} from '@fortawesome/free-solid-svg-icons';
-
-
+import '@ckeditor/ckeditor5-build-classic/build/translations/es';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { global } from '../../services/global';
 
 @Component({
   selector: 'app-user-edit',
@@ -13,14 +14,32 @@ import { faItalic} from '@fortawesome/free-solid-svg-icons';
   providers: [UserService]
 })
 export class UserEditComponent implements OnInit {
+  public Editor = ClassicEditor;
 	public page_title: string;
   public faItalic = faItalic;
   public faBold = faBold;
 	public user: User;
 	public identity;
 	public token;
+  public url;
 	public status;
   public selected: string;
+  public afuConfig = {
+    multiple: false,
+    formatsAllowed: ".jpg,.png,.gif,.jpeg",
+    maxSize: "50",
+    uploadAPI:  {
+      url: global.url+'user/upload',
+      headers: {
+        "Authorization" : this._userService.getToken()
+      }
+    },
+    theme: "attachPin",
+    hideProgressBar: false,
+    hideResetBtn: true,
+    hideSelectBtn: false,
+    attachPinText: 'Sube tu avatar de usuario'
+  };
 
   constructor(
   	private _userService: UserService
@@ -29,6 +48,7 @@ export class UserEditComponent implements OnInit {
   	this.user = new User(1, '', '', 'ROLE_USER', '', '', '', '');
   	this.identity = this._userService.getIdentity();
   	this.token = this._userService.getToken();
+    this.url = global.url;
   	
   	this.user = new User(
   		this.identity.sub,
@@ -51,7 +71,7 @@ export class UserEditComponent implements OnInit {
   			if(response) {
   				console.log(response && response.status);
   				this.status = 'success';
-          console.log(response);
+          
   				//Actualizar usuario en sesión
   				if(response.user.name){
   					this.user.name = response.user.name;
@@ -67,6 +87,8 @@ export class UserEditComponent implements OnInit {
 
   				if(response.user.description){
   					this.user.description = response.user.description;
+            console.log("esto es lo que hay");
+            console.log(this.user.description);
   				}
 
   				if(response.user.image){
@@ -99,4 +121,8 @@ export class UserEditComponent implements OnInit {
     document.execCommand('italic', false);
   }
 
+  avatarUpload(datos) {
+    let data = JSON.parse(datos.response);
+    this.user.image = data.image;
+  }
 }

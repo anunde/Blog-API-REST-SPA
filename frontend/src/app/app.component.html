@@ -27,6 +27,11 @@
       </ul>
 
       <ul class="navbar-nav navbar-right" *ngIf="identity && identity.name">
+        <li *ngIf="identity && identity.image" class="nav-item">
+          <div class="avatar-mask">
+              <img src="{{url + 'user/avatar/' + identity.image}}">
+          </div>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{ identity.name + ' ' + identity.surname }}
@@ -46,5 +51,12 @@
   
   <!--CONTENIDO-->
   <router-outlet></router-outlet>
+
+
+  <footer>
+    <hr>
+    Página diseñada por Álvaro Nuñez &copy;
+    <hr>
+  </footer>
 
 </div><!--Fin contenedor principal-->
