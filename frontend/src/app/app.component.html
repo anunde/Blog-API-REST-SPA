@@ -12,8 +12,13 @@
         <li class="nav-item active">
           <a class="nav-link" [routerLink]="['/inicio']">Inicio <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Categorias</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categorías
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" *ngFor="let category of categories">{{category.name}}</a>
+          </div>
         </li>
       </ul>
 
@@ -38,7 +43,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#">Crear entrada</a>
-            <a class="dropdown-item" href="#">Crear categoría</a>
+            <a class="dropdown-item" [routerLink]="['/new-category']">Crear categoría</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Mi perfil</a>
             <a class="dropdown-item" [routerLink]="['/settings']">Ajustes</a>

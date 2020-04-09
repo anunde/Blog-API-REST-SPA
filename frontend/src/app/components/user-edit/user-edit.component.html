@@ -47,7 +47,7 @@
 
 			<div *ngIf="identity && identity.image" class="avatar-edit"><img src="{{url + 'user/avatar/' + identity.image}}"></div>
 
-			<angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar (ApiResponse)="avatarUpload($event)"></angular-file-uploader>
+			<angular-file-uploader [config]="afuConfig" (ApiResponse)="avatarUpload($event)"></angular-file-uploader>
 		</div>
 
 		<input type="submit" class="btn btn-success mt-2" value="Guardar" [disabled]="settingForm.invalid">
