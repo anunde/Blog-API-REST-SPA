@@ -3,8 +3,6 @@ import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { faBold} from '@fortawesome/free-solid-svg-icons';
 import { faItalic} from '@fortawesome/free-solid-svg-icons';
-import '@ckeditor/ckeditor5-build-classic/build/translations/es';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { global } from '../../services/global';
 
 @Component({
@@ -14,7 +12,6 @@ import { global } from '../../services/global';
   providers: [UserService]
 })
 export class UserEditComponent implements OnInit {
-  public Editor = ClassicEditor;
 	public page_title: string;
   public faItalic = faItalic;
   public faBold = faBold;
@@ -23,7 +20,6 @@ export class UserEditComponent implements OnInit {
 	public token;
   public url;
 	public status;
-  public selected: string;
   public afuConfig = {
     multiple: false,
     formatsAllowed: ".jpg,.png,.gif,.jpeg",
@@ -87,8 +83,6 @@ export class UserEditComponent implements OnInit {
 
   				if(response.user.description){
   					this.user.description = response.user.description;
-            console.log("esto es lo que hay");
-            console.log(this.user.description);
   				}
 
   				if(response.user.image){
@@ -107,18 +101,6 @@ export class UserEditComponent implements OnInit {
   			console.log(<any>error);
   		}
   	);
-  }
-
-  mouseUp() {
-    this.selected = window.getSelection().toString();
-  }
-
-  doBold() {
-    document.execCommand('bold', false);
-  }
-
-  doItalic() {
-    document.execCommand('italic', false);
   }
 
   avatarUpload(datos) {

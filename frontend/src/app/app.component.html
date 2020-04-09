@@ -42,7 +42,7 @@
             {{ identity.name + ' ' + identity.surname }}
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Crear entrada</a>
+            <a class="dropdown-item" [routerLink]="['/new-post']">Crear entrada</a>
             <a class="dropdown-item" [routerLink]="['/new-category']">Crear categoría</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Mi perfil</a>

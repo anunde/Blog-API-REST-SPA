@@ -1,0 +1,46 @@
+<div class="col-md-12 mt-3">
+
+	<h1>{{ page_title }}</h1>
+
+	<p *ngIf="status == 'success'">Crea una nueva entrada</p>
+
+	<hr>
+
+	<div class="alert alert-success col-md-5" *ngIf="status == 'success'">
+		Se ha publicado la entrada correctamente
+	</div>
+
+	<div class="alert alert-danger col-md-5" *ngIf="status == 'error'">
+		No se ha podido crear la entrada
+	</div>
+
+	<!---FORMULARIO DE CREAR ENTRADA--->
+
+	<form class="col-md-9 ml-0 pl-0" #postForm="ngForm" (ngSubmit)="onSubmit(postForm)">
+		<div class="form-group col-md-7 pl-0">
+			<label for="title">Título</label>
+			<input type="text" name="title" class="form-control" #title="ngModel" [(ngModel)]="post.title" required>
+			<small *ngIf="!title.valid && title.touched" class="invalid-feedback d-block">El titulo no puede estar vacío</small>
+		</div>
+		
+		<div class="form-group">
+			<label for="content">Descripción</label>
+			<ckeditor [editor]="Editor" name="content" [(ngModel)]="post.content" required></ckeditor>
+		</div>
+
+		<div class="form-group">
+			<label for="category_id">Categorías</label>
+			<select class="form-control" name="category_id" [(ngModel)]="post.category_id">
+				<option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="image">Imagen</label>
+			<angular-file-uploader [config]="afuConfig" (ApiResponse)="imageUpload($event)"></angular-file-uploader>
+		</div>
+
+		<input type="submit" class="btn btn-success mt-2" value="Publicar" [disabled]="postForm.invalid">
+	</form>
+
+</div>

@@ -36,10 +36,10 @@
 			<small *ngIf="!email.valid && email.touched" class="invalid-feedback d-block">Ese correo electrónico no es válido</small>
 		</div>
 
-		
+
 		<div class="form-group">
 			<label for="description">Descripción</label>
-			<ckeditor [editor]="Editor" name="description" [(ngModel)]="user.description"></ckeditor>
+			<textarea type="description" name="description" class="form-control" #description="ngModel" [(ngModel)]="user.description"></textarea>
 		</div>
 
 		<div class="form-group">
