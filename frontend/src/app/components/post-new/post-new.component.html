@@ -2,16 +2,17 @@
 
 	<h1>{{ page_title }}</h1>
 
-	<p *ngIf="status == 'success'">Crea una nueva entrada</p>
+	<p *ngIf="!is_edit">Crea una nueva entrada</p>
+	<p *ngIf="is_edit">Edita la entrada {{post.title}}</p>
 
 	<hr>
 
 	<div class="alert alert-success col-md-5" *ngIf="status == 'success'">
-		Se ha publicado la entrada correctamente
+		Se ha actualizado la entrada correctamente
 	</div>
 
 	<div class="alert alert-danger col-md-5" *ngIf="status == 'error'">
-		No se ha podido crear la entrada
+		No se ha podido guardar datos de la entrada
 	</div>
 
 	<!---FORMULARIO DE CREAR ENTRADA--->

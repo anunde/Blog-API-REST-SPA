@@ -1,5 +1,6 @@
 <?php
 
+
 //Permitir acceso CORS intercambio de recursos de origen cruzado
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
@@ -19,6 +20,7 @@ if($method == "OPTIONS") {
  */
 
 define('LARAVEL_START', microtime(true));
+
 
 /*
 |--------------------------------------------------------------------------

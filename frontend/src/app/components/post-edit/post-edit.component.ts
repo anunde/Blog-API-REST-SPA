@@ -9,12 +9,11 @@ import { Post } from '../../models/post';
 import { global } from '../../services/global';
 
 @Component({
-  selector: 'app-post-new',
-  templateUrl: './post-new.component.html',
-  styleUrls: ['./post-new.component.css'],
+  selector: 'app-post-edit',
+  templateUrl: '../post-new/post-new.component.html',
   providers: [UserService, CategoryService, PostService]
 })
-export class PostNewComponent implements OnInit {
+export class PostEditComponent implements OnInit {
 	public Editor = ClassicEditor;
 	public page_title: string;
 	public token;
@@ -22,7 +21,7 @@ export class PostNewComponent implements OnInit {
 	public post: Post;
 	public categories;
 	public status;
-  public is_edit: boolean;
+	public is_edit: boolean;
 	public afuConfig = {
     multiple: false,
     formatsAllowed: ".jpg,.png,.gif,.jpeg",
@@ -47,15 +46,16 @@ export class PostNewComponent implements OnInit {
   	private _categoryService: CategoryService,
   	private _postService: PostService
   ) { 
-  	this.page_title = 'Crear nueva entrada';
+  	this.page_title = 'Editar entrada';
   	this.identity = this._userService.getIdentity();
   	this.token = this._userService.getToken();
-    this.is_edit = false;
+  	this.is_edit = true;
   }
 
   ngOnInit(): void {
   	this.getCategories();
-  	this.post = new Post(1, this.identity.sub, 1, '', '', null, null, null, null); 	
+  	this.post = new Post(1, this.identity.sub, 1, '', '', null, null, null, null);
+  	this.getPost();
   }
 
   getCategories() {
@@ -77,13 +77,13 @@ export class PostNewComponent implements OnInit {
   }
 
   onSubmit(form) {
-  	this._postService.create(this.token, this.post).subscribe(
+  	this._postService.update(this.token, this.post, this.post.id).subscribe(
   		response => {
   			if(response.status == 'success') {
   				this.status = 'success';
   				this.post = response.post;
+  				this._router.navigate(['/post/'+this.post.id]);
 
-  				this._router.navigate(['home']);
   			} else {
   				this.status = 'error';
   			}
@@ -93,5 +93,25 @@ export class PostNewComponent implements OnInit {
   			console.log(<any>error);
   		}
   	);
+  }
+
+  getPost(){
+  	this._route.params.subscribe(params => {
+  		let id = +params['id'];
+
+  		this._postService.getPost(id).subscribe(
+  			response => {
+  				if(response.status == 'success') {
+  					this.post = response.post;
+  				} else {  					
+  					this._router.navigate(['/home']);
+  				}
+  			},
+  			error => {
+  				console.log(error);
+  				this._router.navigate(['/home']);
+  			}
+  		);
+  	});
   }
 }

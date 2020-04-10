@@ -9,7 +9,7 @@ class Post extends Model
 	protected $table = 'posts';
 
 	protected $fillable = [
-        'title', 'content', 'category_id'
+        'title', 'content', 'category_id', 'image'
     ];
 
 	//Relaccion de muchos a uno

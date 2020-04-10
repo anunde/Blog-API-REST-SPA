@@ -6,6 +6,8 @@ export class Post{
 		public title: string,
 		public content: string,
 		public image: string,
-		public createdAt: any
+		public createdAt: any,
+		public category: any,
+		public user: any
 	){}
 }
