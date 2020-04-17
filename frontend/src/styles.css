@@ -29,6 +29,18 @@ form input[disabled] {
 	height: 100%;
 }
 
+.avatar-mask-profile {
+	width: 80px;
+	height: 80px;
+	border-radius: 900px;
+	overflow: hidden;
+}
+
+.avatar-mask-profile img {
+	width: 100%;
+	height: 100%;
+}
+
 .card-header a {
 	color: #444;
 }

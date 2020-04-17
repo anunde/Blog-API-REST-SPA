@@ -16,6 +16,8 @@ export class PostService {
 	}
 
 	create(token, post): Observable<any> {
+		post.content = global.htmlEntities(post.content);
+
 		let json = JSON.stringify(post);
 		let params = 'json='+json;
 
@@ -38,6 +40,8 @@ export class PostService {
 	}
 
 	update(token, post, id):Observable<any>{
+		post.content = global.htmlEntities(post.content);
+
 		let json = JSON.stringify(post);
 		let params = 'json='+json;
 

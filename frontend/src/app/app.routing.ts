@@ -12,6 +12,10 @@ import { CategoryNewComponent } from './components/category-new/category-new.com
 import { PostNewComponent } from './components/post-new/post-new.component';
 import { PostEditComponent } from './components/post-edit/post-edit.component';
 import { PostDetailComponent } from './components/post-detail/post-detail.component';
+import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
+import { ProfileComponent } from './components/profile/profile.component';
+
+import { IdentityGuard } from './services/identity.guard';
 
 //DEFINIR RUTAS
 const appRoutes: Routes = [
@@ -19,12 +23,14 @@ const appRoutes: Routes = [
 	{path: 'home', component: HomeComponent},
 	{path: 'login', component: LoginComponent},
 	{path: 'logout/:sure', component: LoginComponent},
-	{path: 'register', component: RegisterComponent},
-	{path: 'settings', component: UserEditComponent},
-	{path: 'new-category', component: CategoryNewComponent},
-	{path: 'new-post', component: PostNewComponent},
+	{path: 'register', component: RegisterComponent, canActivate: [IdentityGuard]},
+	{path: 'settings', component: UserEditComponent, canActivate: [IdentityGuard]},
+	{path: 'new-category', component: CategoryNewComponent, canActivate: [IdentityGuard]},
+	{path: 'new-post', component: PostNewComponent, canActivate: [IdentityGuard]},
 	{path: 'post/:id', component: PostDetailComponent},
-	{path: 'edit/post/:id', component: PostEditComponent},
+	{path: 'edit/post/:id', component: PostEditComponent, canActivate: [IdentityGuard]},
+	{path: 'profile/:id', component: ProfileComponent, canActivate: [IdentityGuard]},
+	{path: 'category/:id', component: CategoryDetailComponent},
 	{path: '**', component: ErrorComponent}
 ];
 

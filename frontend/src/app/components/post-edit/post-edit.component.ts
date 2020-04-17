@@ -20,6 +20,7 @@ export class PostEditComponent implements OnInit {
 	public identity;
 	public post: Post;
 	public categories;
+  public url: string;
 	public status;
 	public is_edit: boolean;
 	public afuConfig = {
@@ -50,6 +51,7 @@ export class PostEditComponent implements OnInit {
   	this.identity = this._userService.getIdentity();
   	this.token = this._userService.getToken();
   	this.is_edit = true;
+    this.url = global.url;
   }
 
   ngOnInit(): void {
@@ -103,6 +105,10 @@ export class PostEditComponent implements OnInit {
   			response => {
   				if(response.status == 'success') {
   					this.post = response.post;
+
+            if(this.post.user_id != this.identity.sub) {
+              this._router.navigate(['/home']);
+            }
   				} else {  					
   					this._router.navigate(['/home']);
   				}

@@ -21,6 +21,7 @@ export class PostNewComponent implements OnInit {
 	public identity;
 	public post: Post;
 	public categories;
+  public url: string;
 	public status;
   public is_edit: boolean;
 	public afuConfig = {
@@ -51,6 +52,7 @@ export class PostNewComponent implements OnInit {
   	this.identity = this._userService.getIdentity();
   	this.token = this._userService.getToken();
     this.is_edit = false;
+    this.url = global.url;
   }
 
   ngOnInit(): void {

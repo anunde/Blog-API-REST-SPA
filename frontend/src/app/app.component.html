@@ -17,7 +17,7 @@
             Categorías
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#" *ngFor="let category of categories">{{category.name}}</a>
+            <a class="dropdown-item" [routerLink]="['category', category.id]" *ngFor="let category of categories">{{category.name}}</a>
           </div>
         </li>
       </ul>
@@ -45,7 +45,7 @@
             <a class="dropdown-item" [routerLink]="['/new-post']">Crear entrada</a>
             <a class="dropdown-item" [routerLink]="['/new-category']">Crear categoría</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Mi perfil</a>
+            <a class="dropdown-item" [routerLink]="['/profile', identity.sub]">Mi perfil</a>
             <a class="dropdown-item" [routerLink]="['/settings']">Ajustes</a>
             <a class="dropdown-item" [routerLink]="['logout/1']">Cerrar sesión</a>
           </div>
